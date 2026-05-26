@@ -1,0 +1,17 @@
+{
+  "name": "devcollab-server",
+  "version": "1.0.0",
+  "description": "DevCollab backend server",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "devcollab-root": "file:..",
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5"
+  }
+}
