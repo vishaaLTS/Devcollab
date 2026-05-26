@@ -93,18 +93,23 @@ export const AppProvider = ({ children }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       });
-      const data = await res.json();
+      let data = {};
+      const contentType = res.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        data = await res.json();
+      }
       if (res.ok) {
         setUser(data.user);
         localStorage.setItem('dc_user', JSON.stringify(data.user));
         triggerAlert('success', `Welcome back, ${data.user.name}!`);
         return true;
       } else {
-        triggerAlert('error', data.error || 'Authentication failed');
+        triggerAlert('error', data.error || `Authentication failed (Status: ${res.status})`);
         return false;
       }
     } catch (e) {
-      triggerAlert('error', 'Network failure during login');
+      console.error('Login error:', e);
+      triggerAlert('error', `Network failure during login: ${e.message}`);
       return false;
     } finally {
       setLoading(false);
@@ -119,18 +124,23 @@ export const AppProvider = ({ children }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password, bio, skills, github })
       });
-      const data = await res.json();
+      let data = {};
+      const contentType = res.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        data = await res.json();
+      }
       if (res.ok) {
         setUser(data.user);
         localStorage.setItem('dc_user', JSON.stringify(data.user));
         triggerAlert('success', `Account created successfully! Welcome ${name}!`);
         return true;
       } else {
-        triggerAlert('error', data.error || 'Registration failed');
+        triggerAlert('error', data.error || `Registration failed (Status: ${res.status})`);
         return false;
       }
     } catch (e) {
-      triggerAlert('error', 'Network failure during registration');
+      console.error('Registration error:', e);
+      triggerAlert('error', `Network failure during registration: ${e.message}`);
       return false;
     } finally {
       setLoading(false);
@@ -200,7 +210,11 @@ export const AppProvider = ({ children }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, ownerId: user.id })
       });
-      const data = await res.json();
+      let data = {};
+      const contentType = res.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        data = await res.json();
+      }
       if (res.ok) {
         setWorkspaces(prev => [...prev, data]);
         selectWorkspace(data);
@@ -210,11 +224,12 @@ export const AppProvider = ({ children }) => {
         if (data.limitTriggered) {
           setShowPayments(true);
         }
-        triggerAlert('error', data.error || 'Failed to create workspace');
+        triggerAlert('error', data.error || `Failed to create workspace (Status: ${res.status})`);
         return false;
       }
     } catch (e) {
-      triggerAlert('error', 'Network failure');
+      console.error('Create workspace error:', e);
+      triggerAlert('error', `Network failure creating workspace: ${e.message}`);
       return false;
     }
   };
@@ -227,7 +242,11 @@ export const AppProvider = ({ children }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, senderId: user.id })
       });
-      const data = await res.json();
+      let data = {};
+      const contentType = res.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        data = await res.json();
+      }
       if (res.ok) {
         // Refresh workspace info
         setActiveWorkspace(data.workspace);
@@ -238,11 +257,12 @@ export const AppProvider = ({ children }) => {
         if (data.limitTriggered) {
           setShowPayments(true);
         }
-        triggerAlert('error', data.error || 'Failed to send invite');
+        triggerAlert('error', data.error || `Failed to send invite (Status: ${res.status})`);
         return false;
       }
     } catch (e) {
-      triggerAlert('error', 'Network error');
+      console.error('Invite member error:', e);
+      triggerAlert('error', `Network error during invite: ${e.message}`);
       return false;
     }
   };
@@ -254,17 +274,22 @@ export const AppProvider = ({ children }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
       });
-      const data = await res.json();
+      let data = {};
+      const contentType = res.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        data = await res.json();
+      }
       if (res.ok) {
         triggerAlert('success', `Joined workspace successfully!`);
         fetchWorkspaces(user.id);
         return true;
       } else {
-        triggerAlert('error', data.error || 'Failed to join workspace');
+        triggerAlert('error', data.error || `Failed to join workspace (Status: ${res.status})`);
         return false;
       }
     } catch (e) {
-      triggerAlert('error', 'Failed to join workspace due to network error');
+      console.error('Join workspace error:', e);
+      triggerAlert('error', `Failed to join workspace due to network error: ${e.message}`);
       return false;
     }
   };
@@ -303,7 +328,11 @@ export const AppProvider = ({ children }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ workspaceId: activeWorkspace.id, name, description, userId: user.id })
       });
-      const data = await res.json();
+      let data = {};
+      const contentType = res.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        data = await res.json();
+      }
       if (res.ok) {
         setProjects(prev => [...prev, data]);
         selectProject(data);
@@ -315,11 +344,12 @@ export const AppProvider = ({ children }) => {
         if (data.limitTriggered) {
           setShowPayments(true);
         }
-        triggerAlert('error', data.error || 'Failed to create project');
+        triggerAlert('error', data.error || `Failed to create project (Status: ${res.status})`);
         return false;
       }
     } catch (e) {
-      triggerAlert('error', 'Network failure creating project');
+      console.error('Create project error:', e);
+      triggerAlert('error', `Network failure creating project: ${e.message}`);
       return false;
     }
   };
@@ -378,7 +408,11 @@ export const AppProvider = ({ children }) => {
           cardCVC: cardData.cardCVC
         })
       });
-      const data = await res.json();
+      let data = {};
+      const contentType = res.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        data = await res.json();
+      }
       if (res.ok) {
         // Upgrade client state user model
         const upgradedUser = { ...user, plan: 'pro' };
@@ -391,11 +425,12 @@ export const AppProvider = ({ children }) => {
         triggerAlert('success', 'Workspace successfully upgraded to Pro!');
         return true;
       } else {
-        triggerAlert('error', data.error || 'Payment declined');
+        triggerAlert('error', data.error || `Payment declined (Status: ${res.status})`);
         return false;
       }
     } catch (e) {
-      triggerAlert('error', 'Checkout failed due to connection error');
+      console.error('Upgrade workspace error:', e);
+      triggerAlert('error', `Checkout failed due to connection error: ${e.message}`);
       return false;
     }
   };
