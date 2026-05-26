@@ -21,8 +21,8 @@ export const SocketProvider = ({ children }) => {
       return;
     }
 
-    // Connect to backend server. Proxy is configured in vite, but let's connect directly to origin or default 5050
-    const socketUrl = window.location.hostname === 'localhost' ? 'http://localhost:5050' : window.location.origin;
+    // Connect to backend server.
+    const socketUrl = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:5050' : window.location.origin);
     const newSocket = io(socketUrl, {
       transports: ['websocket', 'polling']
     });
