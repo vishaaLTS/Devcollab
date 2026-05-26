@@ -262,19 +262,6 @@ The server auto-seeds a shared sandbox workspace on first boot. Use any of these
 
 ---
 
-## 🎨 Design System
-
-DevCollab uses a custom **Obsidian Dark** design system built entirely with Vanilla CSS:
-
-- **Primary Background**: Deep obsidian `#0a0b0e`
-- **Surface Cards**: `#111318` with glassmorphism backdrop filters
-- **Accent Purple**: `#8b5cf6` — primary interactive color
-- **Accent Pink**: `#d946ef` — highlights and gradients
-- **Typography**: [Outfit](https://fonts.google.com/specimen/Outfit) — modern, clean, developer-friendly
-- **Micro-animations**: Smooth 200–300ms transitions across all interactive elements
-- **Responsive**: Fully mobile-adaptive layout
-
----
 
 ## 🗺 Roadmap
 
@@ -319,8 +306,6 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 ---
 
 <div align="center">
-
-**Built with ❤️ for developers, by developers.**
 
 *DevCollab — Collaborate Smarter. Ship Faster.*
 
