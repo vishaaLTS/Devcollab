@@ -62,7 +62,19 @@ const Header = () => {
               ))}
               {activeMembers.length === 0 && (
                 <div style={{ fontSize: '12px', color: 'var(--text-muted)', fontStyle: 'italic' }}>
-                  Connecting...
+                  {window.__DC_OFFLINE_SANDBOX__ ? (
+                    <span style={{ color: 'var(--accent-pink)', display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 600 }}>
+                      <span style={{ 
+                        width: '6px', 
+                        height: '6px', 
+                        borderRadius: '50%', 
+                        background: 'var(--accent-pink)',
+                        boxShadow: '0 0 8px var(--accent-pink)',
+                        display: 'inline-block'
+                      }}></span>
+                      Local Sandbox
+                    </span>
+                  ) : 'Connecting...'}
                 </div>
               )}
             </div>
